@@ -1,0 +1,53 @@
+Obrigado — pela imagem deu pra ver claramente os erros no terminal.
+
+Resumo rápido do que está acontecendo
+
+Primeiro erro: ModuleNotFoundError: Nenhum módulo chamado 'sqlalchemy'
+Depois: ModuleNotFoundError: Nenhum módulo chamado 'jose'
+Esses erros significam que as bibliotecas externas que seu código usa ainda não estão instaladas no ambiente Python que você está executando.
+
+Passo a passo para concordar (Windows PowerShell — porque uma captura de tela mostra o PowerShell)
+
+Abra o PowerShell e vá para o backend do projeto:
+PowerShell
+Cópia
+cd C:\Users\Aluno\Downloads\taskmanager\backend
+Crie e ative um virtualenv (recomendado):
+PowerShell
+Cópia
+python -m venv venv
+.\venv\Scripts\Ativar
+Atualizar pip e instalar as dependências do arquivo requisitos.txt:
+PowerShell
+Cópia
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+Isso instalará sqlalchemy, python-jose, passlib, fastapi, uvicorn etc.
+
+Rodei o servidor FastAPI corretamente (a partir do backend da massa):
+PowerShell
+Cópia
+uvicorn main:app --recarregar
+Ou, se você quiser rodar a partir da raiz do projeto sem mudar o diretório, crie um arquivo vazio backend\__init__.pye então execute:
+
+PowerShell
+Cópia
+uvicorn backend.main:app --recarregar
+Com isso os ModuleNotFoundError que aparecem na imagem devem desaparecer.
+
+Verificações úteis
+
+Confirme que as libs foram instaladas:
+PowerShell
+Cópia
+pip mostrar sqlalchemy
+pip show python-jose
+Se você estiver usando o VSCode, selecione o interpretador Python correto (o que você acabou de criar). Depois reinicie o terminal integrado do VSCode para garantir que ele use o virtualenv.
+Por que não executei os .py individualmente
+
+Evite executar python auth.pyou python main.pydiretamente em alguns casos — o recomendado para FastAPI é iniciar via uvicorn main:app(ou uvicorn backend.main:appquando rodando da raiz). Rodar diretamente pode causar problemas de importação relativos/absolutos dependendo do diretório atual.
+Outros pontos rápidos (se aparecerem próximos erros)
+
+Se mais tarde aparecer erro sobre variáveis ​​de ambiente faltando (DATABASE_URL, SECRET_KEY), crie um .enva partir do .env.example, ou carregue-o automaticamente com python-dotenv(posso mostrar como).
+Se aparecerem erros de Pydantic / enums ou serialização, eu mostro os ajustes (p.ex. usar model_config = {"from_attributes": True} para Pydantic v2).
+Quer que eu guie você na execução desses comandos agora (diga se você não está no Windows, macOS ou Linux) ou envie uma nova captura mostrando o terminal após você executar os passos acima para eu verificar os próximos erros?
